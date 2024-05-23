@@ -95,7 +95,7 @@
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="200px" height="200px" src="@Model.ImageURL">
+                    <img class="rounded-circle mt-5" width="200px" height="200px" src="@Model.ImageURL" disabled>
                     <form method="post" enctype="multipart/form-data" action="@Url.Action("UpdatePhotoForAdmin", "UserProfile")">
                         <div class="file-input-container">
                             <label for="fileInput" class="file-upload-button"></label><br />
@@ -125,21 +125,21 @@
                     <div class="row mt-2">
                         <div class="col-md-6">
                             <label class="labels">First Name</label>
-                            <input type="text" class="form-control" placeholder="" value="@Model.FirstName">
+                            <input type="text" class="form-control" placeholder="" value="@Model.FirstName" disabled>
                         </div>
                         <div class="col-md-6">
                             <label class="labels">Last Name</label>
-                            <input type="text" class="form-control" value="@Model.LastName" placeholder="">
+                            <input type="text" class="form-control" value="@Model.LastName" placeholder="" disabled>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label class="labels">Phone Number</label>
-                            <input type="text" class="form-control" placeholder="" value="@Model.PhoneNumber">
+                            <input type="text" class="form-control" placeholder="" value="@Model.PhoneNumber" disabled>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">Email</label>
-                            <input class="form-control" placeholder="" value="@Model.Email">
+                            <input class="form-control" placeholder="" value="@Model.Email" disabled>
                         </div>
 
                     </div>
