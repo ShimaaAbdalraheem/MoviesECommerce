@@ -749,9 +749,9 @@ namespace MoviesE_commerce.Controllers
 			if (movie == null)
 			{
 
-				return View("NotFoundMovie");
+				return RedirectToAction("NotFoundMovie", "UserProfile");
 			}
-			return RedirectToAction("OneMovies", movie);
+			return RedirectToAction("OneMovies","Admin", movie);
 		}
 	}
 

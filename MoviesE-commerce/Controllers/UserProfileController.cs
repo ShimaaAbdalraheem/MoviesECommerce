@@ -261,9 +261,14 @@ namespace MoviesE_commerce.Controllers
 			int Id = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
 
 			var user = _db.Users.FirstOrDefault(u => u.Id == Id);
+			if (user == null)
+			{
+				return RedirectToAction("HomeOneMovie");
+			}
 			ViewBag.Id = Id;
 			ViewBag.UserName = user.FirstName;
 			ViewBag.ImageURL = user.ImageURL;
+
 
 			var movie = _db.Movies
 				.Include(m => m.Producer)
@@ -277,6 +282,22 @@ namespace MoviesE_commerce.Controllers
 			}
 
 			return View(movie);
+		}
+		public IActionResult HomeOneMovie(int id)
+		{
+
+			var movie = _db.Movies
+				.Include(m => m.Producer)
+				.Include(m => m.ActorMovies)
+					.ThenInclude(am => am.Actor)
+				.FirstOrDefault(m => m.Id == id);
+
+			if (movie == null)
+			{
+				return NotFound();
+			}
+
+			return View("OneMovies",movie);
 		}
 		public IActionResult Producer(int id)
 		{
@@ -315,6 +336,10 @@ namespace MoviesE_commerce.Controllers
 
 			return View(movies);
         }
+		public IActionResult NotFoundMovie()
+		{
+			return View();
+		}
 		[HttpGet]
 		public IActionResult Search()
 		{
@@ -333,6 +358,7 @@ namespace MoviesE_commerce.Controllers
 			}
 			return RedirectToAction("OneMovies","UserProfile", movie);
 		}
+
 		public IActionResult adminProfile()
 		{
 			int adminId = 0;

@@ -252,40 +252,73 @@ namespace MoviesE_commerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Payment(IFormCollection req, int orderId ,int userID)
+        public async Task<IActionResult> Payment(IFormCollection req, int orderId)
         {
             int id = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
 
             var user = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
             ViewBag.Id = id;
             ViewBag.UserName = user.FirstName;
             ViewBag.ImageURL = user.ImageURL;
 
-            Card_Number = long.Parse(req["CardNumber"]); 
-                Expiry_ =DateTime.Parse (req["Expiry"]);   
-                Cvv_ = req["Cvv"];
+            // Get card number and CVV as strings first
+            string cardNumberStr = req["CardNumber"];
+            string cvvStr = req["Cvv"];
 
-            var order = _db.Orders.FirstOrDefault(o => o.UserId ==userID && o.Status == status.open);
+            // Validate Card Number
+            if (!long.TryParse(cardNumberStr, out long cardNumber) || cardNumberStr.Length != 16)
+            {
+                ViewData["Message"] = "Invalid card number. Please enter a 16-digit card number.";
+                return View("Payment");
+            }
+
+            // Validate CVV
+            if (!int.TryParse(cvvStr, out int cvv) || cvvStr.Length != 3)
+            {
+                ViewData["Message"] = "Invalid CVV. Please enter a 3-digit CVV.";
+                return View("Payment");
+            }
+
+            // Validate Expiry Date
+            if (!DateTime.TryParse(req["Expiry"], out DateTime expiry))
+            {
+                ViewData["Message"] = "Invalid expiry date format. Please enter a valid expiry date.";
+                return View("Payment");
+            }
+
+            DateTime now = DateTime.Now;
+            if (expiry.Year < now.Year || (expiry.Year == now.Year && expiry.Month < now.Month) ||
+                expiry.Year > now.Year + 4)
+            {
+                ViewData["Message"] = "Invalid expiry date. The expiry date must be between now and the next four years, and not earlier than the current month.";
+                return View("Payment");
+            }
+
+            var order = _db.Orders.FirstOrDefault(o => o.UserId == id && o.Status == status.open);
 
             if (order == null)
             {
                 return NotFound();
             }
+
             order.Status = status.close;
             _db.SaveChanges();
 
             Payment payment = new Payment
             {
                 PaymentDate = DateTime.Now,
-                CardNumber = Card_Number, 
-                Expiry =Expiry_,    
-                Cvv = Cvv_,
-               
-
+                CardNumber = cardNumber,
+                Expiry = expiry,
+                Cvv = cvvStr,
+                UserId = id,
+                OrderId = orderId
             };
 
-            payment.UserId = userID;
-            payment.OrderId = orderId;
             _db.Payments.Add(payment);
             _db.SaveChanges();
             ViewData["Message"] = "Payment done successfully";
@@ -294,14 +327,12 @@ namespace MoviesE_commerce.Controllers
             {
                 PaymentId = payment.Id,
             };
+
             _db.Bills.Add(bill);
             _db.SaveChanges();
-           
 
-            return View("CompleteOrder"); 
+            return View("CompleteOrder");
         }
-
-
 
 
     }

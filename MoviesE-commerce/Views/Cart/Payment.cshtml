@@ -1,13 +1,13 @@
 ﻿@model MoviesE_commerce.Models.Payment
 @{
-    ViewData["Title"] = "Payment";
-    Layout = "_UserLayout";
+	ViewData["Title"] = "Payment";
+	Layout = "_UserLayout";
 }
 
 <br />
 <br />
 <br />
-<br/>
+<br />
 
 <style>
 	.custom-select {
@@ -53,22 +53,22 @@
 				<div class="conhny-form-section">
 					<form action="#" method="post" class="formhny-sec">
 						<div class="form-grids">
-                            <label class="labels">Card Number</label>
-							<input type="text" class="form-control" placeholder="1234567890123456" name="CardNumber" required>
-                        </div>
-							  <div class="form-input">
-                            <label class="labels">Expiry</label>
-							<input type="month" class="form-control" placeholder="MM/YYYY" name="Expiry" required>
-                        </div>
+							<label class="labels">Card Number</label>
+							<input type="text" class="form-control" placeholder="1234567890123456" name="CardNumber">
+						</div>
 						<div class="form-input">
-							  <label class="labels">CVV</label>
-							<input type="text" class="form-control" placeholder="***" name="Cvv" required>
-                        </div>
-							 <div class="submithny text-right mt-4">
-                <button type="submit" class="btn read-button">Pay</button>
-              </div>
+							<label class="labels">Expiry</label>
+							<input type="month" class="form-control" placeholder="MM/YYYY" name="Expiry">
+						</div>
+						<div class="form-input">
+							<label class="labels">CVV</label>
+							<input type="text" class="form-control" placeholder="***" name="Cvv">
+						</div>
+						<div class="submithny text-right mt-4">
+							<button type="submit" class="btn read-button">Pay</button>
+						</div>
 
-						
+
 					</form>
 
 				</div>
