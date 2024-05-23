@@ -1,0 +1,206 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "OneMovies";
+    Layout = "_UserLayout";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<style>
+body {
+   background-color: #fdbcd2;
+}
+
+
+.contact-form {
+    background: #C5E0ED;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    width: 70%;
+}
+
+.contact-form .form-control {
+    border-radius: 1rem;
+}
+
+.contact-image {
+    text-align: center;
+}
+
+.contact-image img {
+    border-radius: 6rem;
+    width: 11%;
+    margin-top: -3%;
+    transform: rotate(29deg);
+}
+
+.contact-form form {
+    padding: 14%;
+}
+
+.contact-form form .row {
+    margin-bottom: -7%;
+}
+
+.contact-form h3 {
+    margin-bottom: 8%;
+    margin-top: -10%;
+    text-align: center;
+    color: #dc3545;
+}
+
+.contact-form .btnContact {
+    width: 50%;
+    border: none;
+    border-radius: 1rem;
+    padding: 1.5%;
+    background: #dc3545;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btnContactSubmit {
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    cursor: pointer;
+}
+
+.movie-card {
+    width: 70%; /* Increase the width of the card */
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.movie-card .container {
+    position: relative;
+}
+
+.movie-card img.cover {
+    width: 100%;
+    height: auto;
+}
+
+.movie-card .hero {
+    position: relative;
+}
+
+.movie-card .hero .details {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+}
+
+.movie-card .details .title1 {
+    font-size: 36px; /* Increase the font size */
+    font-weight: bold;
+}
+
+.movie-card .details .title2 {
+    font-size: 24px; /* Increase the font size */
+}
+
+.movie-card .details .rating {
+    margin-top: 10px;
+}
+
+.movie-card .details .likes {
+    margin-top: 10px;
+}
+
+.movie-card .description {
+    padding: 30px; /* Increase the padding */
+    background: white;
+}
+
+.movie-card .description .column1 .tag {
+    background: #e2e2e2;
+    border-radius: 3px;
+    padding: 5px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.movie-card .description .column2 {
+    margin-top: 20px;
+}
+
+.movie-card .description .avatars img {
+    width: 50px; /* Increase the size of avatars */
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+</style>
+
+<div class="movie-card">
+    <div class="container">
+        <a href="#"><img src="@Model.ImageURL" alt="cover" class="cover" /></a>
+        <div class="hero">
+            <div class="details">
+                <div class="title1">@Model.Title </div>
+            </div>
+        </div>
+        <div class="description">
+            <div class="column1">
+                <span class="tag">@Model.MovieCategory</span>
+            </div>
+            <div class="column2">
+                <p class="card-text" style="font-size: 20px;">@Model.Description</p>
+                <br />
+                <br />
+
+                <p class="card-text" style="font-size: 20px;">
+                    <b style="color: #dd0d63;">Producer: </b>
+                    <a asp-controller="UserProfile" asp-action="Producer" asp-route-id="@Model.ProducerId">@Model.Producer.Name</a>
+                    <br />
+                    <b style="color: #dd0d63;">Date: </b>@Model.Date.ToString("dd MMM yy")
+                </p>
+                <p class="card-text" style="font-size: 20px;">
+                    <b style="color: #dd0d63;">Actors: </b>
+                </p>
+                <hr />
+                @if (ViewData["Message"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["Message"]
+                    </div>
+                }
+                <div class="row">
+                    @foreach (var actorMovie in Model.ActorMovies)
+                    {
+                        <div class="col-md-3 text-center" style="font-size: 18px;">
+                            <img class="border-info rounded-circle" src="@actorMovie.Actor.ProfilePictureURL" style="max-width: 150px; border-radius: 50%; width: 100px; height: 100px;" />
+                            <br />
+                            <a href="@Url.Action("Actor", "UserProfile", new { id = actorMovie.ActorId })">@actorMovie.Actor.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+         <div class="pt-4 mb-5" style="width: fit-content; margin-left: auto;">
+    <button onclick="goBack()" data-mdb-button-init data-mdb-ripple-init class="btn btn-lg" style="background-color: #dd0d63; color: #fff;">Back</button>
+</div>
+
+<script>
+    function goBack() {
+        var userId = @Model.Id; // Assuming Model.Id contains the user's ID
+        window.location.href = "@Url.Action( "Movies","UserProfile")/" + userId;
+    }
+</script>
+
+    </div>
+   
+
+</div>

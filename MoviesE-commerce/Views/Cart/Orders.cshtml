@@ -1,0 +1,63 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "_UserLayout";
+}
+
+<br />
+<br />
+<br />
+<br/>
+
+<h1 style="text-align: center; color: #dd0d63;">List of orders </h1>
+
+
+<br />
+<br />
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Items</th> 
+                <th>Amount</th>
+                <th>Total Price</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td> 
+                    <td>
+                      <ul class="list-group">
+
+                            @foreach (var orderItem in order.OrderItems)
+                            {
+                               
+                                 <li class="list-group-item list-group-item-success">@orderItem.Movie.Title        Price: @orderItem.Price</li>
+                               
+                            }
+                        </ul>
+                    </td>
+                    <td>@order.Amount</td>
+                    <td>@order.TotalPrice</td>
+                   
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <a href="#" class="back-button" onclick="history.back()">
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+         <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+     </svg>
+ </a>
+}
+else
+{
+    <p>No orders found.</p>
+}
+

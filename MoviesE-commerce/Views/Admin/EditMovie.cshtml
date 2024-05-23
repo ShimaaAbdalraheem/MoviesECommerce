@@ -1,0 +1,271 @@
+﻿@model MoviesE_commerce.Models.ViewModels.EditMovieViewModel
+@{
+    ViewData["Title"] = "Edit Movie";
+    Layout = "_AdminLayout";
+}
+
+<h1>...</h1>
+
+<h3>....</h3>
+<style>
+    body {
+        /* background: url("@Model.ImageURL") no-repeat center center fixed;
+        background-size: cover; */
+        background: -webkit-linear-gradient(left,#E97DA2, #1F76CC);
+        background-size: cover;
+    }
+
+    .contact-form {
+        background: #C5E0ED;
+        margin-top: 10%;
+        margin-bottom: 5%;
+        width: 70%;
+    }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+    .contact-image {
+        text-align: center;
+    }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+    .contact-form form {
+        padding: 14%;
+    }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+    .contact-form h3 {
+        margin-bottom: 8%;
+        margin-top: -10%;
+        text-align: center;
+        color: #dc3545;
+    }
+
+    .contact-form .btnContact {
+        width: 50%;
+        border: none;
+        border-radius: 1rem;
+        padding: 1.5%;
+        background: #dc3545;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .btnContactSubmit {
+        width: 50%;
+        border-radius: 1rem;
+        padding: 1.5%;
+        color: #fff;
+        background-color: #dc3545;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-custom {
+        background-color: #E64077; /* Custom color */
+        color: white; /* Text color */
+    }
+</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<section class="<section class=" get-in-touch">
+    
+<div class="container contact-form">
+    <div class="contact-image">
+       @*  <img src="@Model.ImageURL" alt="rocket_contact" /> *@
+    </div>
+    <form method="post">
+        <h3>Edit Movie</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" pattern="^[a-zA-Z][a-zA-Z ]*$" oninvalid="setCustomValidity('Please enter alphabets.')" onkeyup="setCustomValidity('')" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Duration"></label>
+                        <input type="time" asp-for="Duration" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                        <input asp-for="Price" class="form-control" type="number" min="0" required />
+                </div>
+              
+               
+               
+                 <div class="form-group">
+                    <label asp-for="MovieCategory"></label>
+                    <select asp-for="MovieCategory" class="form-control" required>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Family">Family</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Documentary">Documentary</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="SelectedActorIds"></label>
+                    <select asp-for="SelectedActorIds" class="form-control" multiple required>
+                        @foreach (var actor in Model.Actors)
+                        {
+                            <option value="@actor.Value">@actor.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+
+                    <button type="submit" class="btn btn-primary">save</button>
+                        <a asp-action="AdminDashboard" class="btn btn-custom">Cancel</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="ImageURL"></label>
+                            <input asp-for="ImageURL" class="form-control" pattern="^[^\s].*" placeholder="enter avalid URL" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date"></label>
+                            <input type="date" asp-for="Date" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProducerId"></label>
+                        <select asp-for="ProducerId" class="form-control" required>
+                            <option value="">-- Select Producer --</option>
+                            @foreach (var producer in Model.Producers)
+                            {
+                                <option value="@producer.Value">@producer.Text</option>
+                            }
+                        </select>
+                    </div>
+                  @*   <textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;"></textarea> *@
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                            <textarea asp-for="Description" class="form-control" rows="5" required></textarea>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="button-container" style="width: fit-content; margin-left: auto;">
+                <a href="#" class="back-button" onclick="history.back()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#3289D5" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+<section/>
+@* <form asp-action="EditMovie" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="ImageURL"></label>
+        <input asp-for="ImageURL" class="form-control" />
+        <span asp-validation-for="ImageURL" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Duration"></label>
+        <input type="time" asp-for="Duration" class="form-control" />
+        <span asp-validation-for="Duration" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Date"></label>
+        <input type="date" asp-for="Date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MovieCategory"></label>
+        <select asp-for="MovieCategory" class="form-control">
+            <option value="Action">Action</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Family">Family</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Romance">Romance</option>
+            <option value="Documentary">Documentary</option>
+        </select>
+        <span asp-validation-for="MovieCategory" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProducerId"></label>
+        <select asp-for="ProducerId" class="form-control">
+            <option value="">-- Select Producer --</option>
+            @foreach (var producer in Model.Producers)
+            {
+                <option value="@producer.Value">@producer.Text</option>
+            }
+        </select>
+        <span asp-validation-for="ProducerId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="SelectedActorIds"></label>
+        <select asp-for="SelectedActorIds" class="form-control" multiple>
+            @foreach (var actor in Model.Actors)
+            {
+                <option value="@actor.Value">@actor.Text</option>
+            }
+        </select>
+        <span asp-validation-for="SelectedActorIds" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form> *@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const timeInputs = document.querySelectorAll('input[type="time"]');
+        timeInputs.forEach(input => {
+            input.addEventListener('input', function () {
+                let value = input.value;
+                if (value) {
+                    // Ensure the value is in HH:MM format
+                    const [hours, minutes] = value.split(':');
+                    input.value = ${hours.padStart(2, '0')}:${minutes.padStart(2, '0')};
+                }
+            });
+        });
+    });
+</script>

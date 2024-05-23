@@ -1,0 +1,77 @@
+﻿@model List<Actor>
+@{
+    ViewData["Title"] = "Actors";
+    Layout = "_AdminLayout";
+}
+
+<h1>......</h1>
+
+<h3>....</h3>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-image">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center align-middle">ProfilePictureURL</th>
+            <th scope="col" class="text-center align-middle">Name</th>
+            <th scope="col" class="text-center align-middle">Bio</th>
+            <th scope="col" class="text-center align-middle">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (Actor item in Model)
+          {
+            <tr>
+              <td style="width: 200px; text-align: center;">
+                <img src="@item.ProfilePictureURL" alt="Actor Image" style="width: 200px; height: 200px; border-radius: 50%;">
+              </td>
+              <td class="text-center align-middle">@item.Name</td>
+              <td class="text-center align-middle">@item.Bio</td>
+             <td class="text-center align-middle">
+            <div class="btn-group d-inline-block">
+                <form action="@Url.Action("EditActor", "Admin", new { id = item.Id })" method="get">
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <button type="submit" class="btn btn-outline-primary">Edit</button>
+                </form>
+            </div>
+            <div class="btn-group d-inline-block">
+                                    <form action="@Url.Action("DeleteActor", "Admin", new { id = item.Id })" method="post" onsubmit="return confirmDelete()">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-outline-primary">Delete</button>
+                    </form>
+                </div>
+
+                <script>
+                    function confirmDelete() {
+                        return confirm("Are you sure you want to delete this item?");
+                    }
+                </script>
+                  </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <button type="button" class="btn btn-success" style="background-color: #dd0d63" onclick="window.location.href='@Url.Action("AddActor", "Admin")'">Add Actor</button>
+        </div>
+        <div class="col-6 text-right">
+            <button onclick="goBack()" data-mdb-button-init data-mdb-ripple-init class="btn btn-lg" style="background-color: #dd0d63; color: #fff;">Back</button>
+        </div>
+    </div>
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</div>
+

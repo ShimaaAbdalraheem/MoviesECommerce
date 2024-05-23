@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url('https://wallpapercrafter.com/desktop/67627-the-peanuts-movies-2016-movies-animated-movies.jpg'); /* Replace 'path/to/your/image.jpg' with the path to your image */
+        background-size: cover; 
+        background-position: center; 
+    }
+
+    .not-found-container {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: black; 
+    }
+
+    .not-found-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .not-found-description {
+        font-size: 16px;
+    }
+
+    </style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Not Found</title>
+    <link rel="stylesheet" href="not-found.css">
+</head>
+<body>
+    <div class="not-found-container">
+        <h1 class="not-found-title">Movie Not Found</h1>
+        <p class="not-found-description">Sorry, the movie you are looking for could not be found.</p>
+    </div>
+
+</body>
+
+</html>
+
+<a href="#" class="back-button" onclick="history.back()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="red" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+    </svg>
+</a>

@@ -1,0 +1,69 @@
+﻿@model Actor
+@{
+    ViewData["Title"] = "Actor";
+    Layout = "_UserLayout";
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Actor Image -->
+            <img src="@Model.ProfilePictureURL" alt="@Model.Name" class="img-fluid" />
+        </div>
+        <div class="col-md-6">
+
+            <!-- Actor Information -->
+            <h1>@Model.Name</h1>
+            <p>@Model.Bio</p>
+            <br />
+            <br />
+             <br />
+            <br />
+             <br />
+            <br />
+            <div class="pt-4 mb-5" style="width: fit-content; margin-left: auto;">
+    <button onclick="goBack()" data-mdb-button-init data-mdb-ripple-init class="btn btn-lg" style="background-color: #dd0d63; color: #fff;">Back</button>
+</div>
+
+
+
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+        </div>
+        </div>
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <!-- Movies Associated with the Actor -->
+            <br />
+          <h2 style="color: #df0e62;">More Movies</h2>
+          <br />
+
+            <div class="row">
+              @foreach (var actorMovie in Model.ActorMovies)
+                    {
+                        <div class="col-md-3">
+                             <a href="@Url.Action( "OneMovies","UserProfile", new { id = actorMovie.MovieId })">
+                                <img src="@actorMovie.Movie.ImageURL" class="card-img-top rounded-circle" alt="@actorMovie.Movie.Title" style="width: 150px; height: 150px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="color: #df0e62;">@actorMovie.Movie.Title</h5>
+                                    @* <p class="card-text">@actorMovie.Movie.Description</p>*@
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+            </div>
+        </div>
+    </div>
+</div>

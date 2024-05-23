@@ -1,0 +1,103 @@
+﻿ @model List<OrderItem>
+@using MoviesE_commerce.DBContect
+@using MoviesE_commerce.Models.ViewModels
+@{
+    ViewData["Title"] = "MyCart";
+    Layout = "_UserLayout";
+}
+@{
+    MovieE_CommerceDbContext _db;
+}
+<br />
+<br />
+<br />
+<br />
+
+<h1 style="text-align: center; color: #dd0d63;">shopping cart</h1>
+
+
+<br />
+<br />
+
+
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie Name</th>
+                <th>Movie Image</th>
+                <th>Price</th>
+                <th></th> <!-- For Delete Icon -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    @* <td>@item.MovieId</td>*@
+                    <td>@item.Movie.Title</td>
+                    <td>
+                        <!-- Display Movie Image -->
+                        <img src="@item.Movie.ImageURL" alt="@item.Movie.Title" style="max-width: 100px; max-height: 100px;" />
+                    </td>
+
+                    <td>@item.Price</td>
+                    <td>
+                        
+                       <div class="btn-group d-inline-block">
+                     <form action="@Url.Action("DeleteItem", "Cart", new { orderItemId = item.Id })" method="post" onsubmit="return confirmDelete()">
+                         <input type="hidden" name="id" value="@item.Id" />
+                         <button type="submit" class="btn btn-outline-primary">Delete</button>
+                     </form>
+                 </div>
+
+                        <script>
+                            function confirmDelete() {
+                                return confirm("Are you sure you want to delete this item?");
+                            }
+                        </script>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="#" class="back-button" onclick="history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+        </svg>
+    </a>
+
+}
+else
+{
+    <p>No order items found.</p>
+}
+@{
+    int orderId = ViewBag.OrderId; // Replace this with the actual OrderId
+    int userId = ViewBag.Id; // Assuming you have userId stored in ViewBag
+}
+@*
+<a href="@Url.Action("Payment", "Cart", new { orderId = orderId, userId = userId })" class="">
+    <button type="button" class="btn btn-light custom-color custom-text">Complete Order</button>
+</a>*@
+
+<a href="@Url.Action("Payment", "Cart", new { orderId = orderId, userId = userId })" class="d-flex justify-content-end">
+    <button type="button" class="btn btn-light custom-color custom-text">Complete Order</button>
+</a>
+<br />
+<br />
+<style>
+    .custom-color {
+        background-color: #dd0d63;
+        /* You can adjust other button styles here */
+    }
+
+    .custom-text {
+        color: white; /* Set text color to white */
+        font-size: 18px; /* Set font size to 18 pixels */
+        /* You can adjust other text styles here */
+    }
+</style>

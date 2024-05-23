@@ -1,0 +1,224 @@
+﻿@model MoviesE_commerce.ViewModels.MovieViewModel
+@{
+    ViewData["Title"] = "Add Movie";
+    Layout = "_AdminLayout";
+}
+
+<h1>...</h1>
+
+<h3>....</h3>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Aligned Button</title>
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: flex-end; /* Align items to the right */
+            padding: 10px; /* Optional: add some padding */
+        }
+
+        .back-button {
+            display: inline-block; /* Ensure the link is displayed as an inline-block */
+        }
+    </style>
+</head>
+<style>
+    body {
+        background: -webkit-linear-gradient(left,#E97DA2, #1F76CC);
+        background-size: cover;
+    }
+    .get-in-touch {
+        max-width: 900px;
+        margin: 50px auto;
+        position: relative;
+    }
+
+   /*  .contact-form {
+        background: #F9C9CE;
+        margin-top: 10%;
+        margin-bottom: 5%;
+        width: 120%;
+    } */
+
+        .get-in-touch .title {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 3.2em;
+            line-height: 48px;
+            padding-bottom: 48px;
+            color: #5543ca;
+            background: #5543ca;
+            background: -moz-linear-gradient(left,#f4524d 0%,#5543ca 100%) !important;
+            background: -webkit-linear-gradient(left,#f4524d 0%,#5543ca 100%) !important;
+            background: linear-gradient(to right,#f4524d 0%,#5543ca 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+        }
+
+    .contact-form .form-field {
+        position: relative;
+        margin: 32px 0;
+    }
+
+    .contact-form .input-text {
+        display: block;
+        width: 70%;
+        height: 36px;
+        border-width: 0 0 2px 0;
+        border-color: #5543ca;
+        font-size: 18px;
+        line-height: 26px;
+        font-weight: 400;
+    }
+
+        .contact-form .input-text:focus {
+            outline: none;
+        }
+
+            .contact-form .input-text:focus + .label,
+            .contact-form .input-text.not-empty + .label {
+                -webkit-transform: translateY(-24px);
+                transform: translateY(-24px);
+            }
+
+    .contact-form .label {
+        position: absolute;
+        left: 20px;
+        bottom: 11px;
+        font-size: 20px;
+        line-height: 26px;
+        font-weight: 400;
+        color: #5543ca;
+        cursor: text;
+        transition: -webkit-transform .2s ease-in-out;
+        transition: transform .2s ease-in-out;
+        transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+    }
+
+    .contact-form .submit {
+        display: inline-block;
+        background-color: #000;
+        background-image: linear-gradient(125deg,#a72879,#064497);
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 16px;
+        padding: 8px 16px;
+        border: none;
+        width: 200px;
+        cursor: pointer;
+    }
+
+    .contact-form .form-control {
+        border-radius: 1rem;
+    }
+ 
+     .contact-form form {
+        padding: 14%;
+    }
+
+    .btn-custom {
+        background-color: #E64077; /* Custom color */
+        color: white; /* Text color */
+    }
+
+   /*  .button-container {
+        text-align: right; /* Align the button to the right */
+    } */
+
+    .button-container {
+        text-align: right; /* Align the button to the right */
+    }
+
+    .back-button {
+        display: inline-block; /* Ensure the link is displayed as an inline-block */
+    }
+
+    
+</style>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<section class="get-in-touch">
+    <h1 class="title">Add Movie</h1>
+    <form class="contact-form row" method="post">
+       @*  <section class="title">  <h15 class="title">  Add Movie</h15></section> *@
+       
+
+      <div class="form-field col-lg-6">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" required />
+      </div>
+     
+      <div class="form-field col-lg-6 ">
+          <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" required />
+      </div>
+       <div class="form-field col-lg-12 ">
+            <label asp-for="ImageURL"></label>
+            <input asp-for="ImageURL" class="form-control" required />
+      </div>
+      <div class="form-field col-lg-12">
+            <label asp-for="Duration"></label>
+            <input type="time" asp-for="Duration" class="form-control" required />
+      </div>
+        <div class="form-field col-lg-12">
+            <label asp-for="Date"></label>
+            <input type="date" asp-for="Date" class="form-control" required />
+        </div>
+        <div class="form-field col-lg-12">
+            <label asp-for="MovieCategory"></label>
+            <select asp-for="MovieCategory" class="form-control">
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Family">Family</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Romance">Romance</option>
+                <option value="Documentary">Documentary</option>
+            </select>
+        </div>
+        <div class="form-field col-lg-12">
+            <label asp-for="ProducerId"></label>
+            <select asp-for="ProducerId" class="form-control">
+                <option value="">-- Select Producer --</option>
+                @foreach (var producer in Model.Producers)
+                {
+                    <option value="@producer.Value">@producer.Text</option>
+                }
+            </select>
+        </div>
+        <div class="form-field col-lg-12">
+            <label asp-for="SelectedActorIds"></label>
+            <select asp-for="SelectedActorIds" class="form-control" multiple>
+                @foreach (var actor in Model.Actors)
+                {
+                    <option value="@actor.Value">@actor.Text</option>
+                }
+            </select>
+        </div>
+        <div class="form-field col-lg-12 ">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control" rows="5" required></textarea>
+        </div>
+        
+      <div class="form-field col-lg-6">
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+            <a asp-action="Index" class="btn btn-custom">Cancel</a>
+      </div>
+        <div class="button-container" style="width: fit-content; margin-left: auto;">
+            <a href="#" class="back-button" onclick="history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill= "#E64077" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                </svg>
+            </a>
+        </div>
+       
+   </form>
+    
+</section>
