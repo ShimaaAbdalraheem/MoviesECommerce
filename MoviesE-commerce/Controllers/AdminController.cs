@@ -208,36 +208,73 @@ namespace MoviesE_commerce.Controllers
 
 		}
 		[HttpPost]
-		public IActionResult AddProducer(IFormCollection req)
-		{
 
-			ProducerName = req["ProducerName"];
-			ProducerBio = req["ProducerBio"];
-			ProducerProfilePictureURL = req["ProfilePictureURL"];
-			Producer? query = _db.Producers.SingleOrDefault(producer => producer.Name == ProducerName);
+            
+        //**************************
+        public IActionResult AddProducer(IFormCollection req)
+        {
+            // Check if any field is empty
+            if (string.IsNullOrEmpty(req["ProducerName"]) || string.IsNullOrEmpty(req["ProducerBio"]) || string.IsNullOrEmpty(req["ProfilePictureURL"]))
+            {
+                ViewData["Message"] = "All fields are required.";
+                return View();
+            }
 
-			if (query != null)
-			{
-				ViewData["Message"] = "this Producer is already exist";
-				return View();
-			}
+            // Assign the values from the form collection
+            string producerName = req["ProducerName"];
+            string ProducerBio = req["ProducerBio"];
+            string ProducerProfilePictureURL = req["ProfilePictureURL"];
 
-			Producer newProducer = new Producer
-			{
-				Name = ProducerName,
-				Bio = ProducerBio,
-				ProfilePictureURL = ProducerProfilePictureURL
-			};
+            // Validate the length of the ActorName, ActorBio, and ProfilePictureURL
+            if (producerName.Length > 30)
+            {
+                ViewData["Message"] = "Producer Name must be 30 characters or less.";
+                return View();
+            }
 
-			_db.Producers.Add(newProducer);
-			_db.SaveChanges();
-			ViewData["Message"] = "Producer added successfully";
+            if (ProducerBio.Length > 150)
+            {
+                ViewData["Message"] = "Producer Bio must be 150 characters or less.";
+                return View();
+            }
 
-           
+            if (ProducerProfilePictureURL.Length > 150)
+            {
+                ViewData["Message"] = "Profile Picture URL must be 150 characters or less.";
+                return View();
+            }
 
-            return View();
-		}
-		[HttpGet]
+            // Check if ActorName contains only valid characters (letters and spaces)
+            if (!IsValidActorName(producerName))
+            {
+                ViewData["Message"] = "Actor Name must contain only letters and spaces.";
+                return View();
+            }
+
+            // Check if the actor already exists
+            Producer? query = _db.Producers.SingleOrDefault(p=> p.Name == producerName);
+            if (query != null)
+            {
+                ViewData["Message"] = "This Producer already exists.";
+                return View();
+            }
+
+            // Create and add the new actor
+            Producer newProducer = new Producer
+            {
+                Name = producerName,
+                Bio = ProducerBio,
+                ProfilePictureURL = ProducerProfilePictureURL
+            };
+            _db.Producers.Add(newProducer);
+            _db.SaveChanges();
+            ViewData["Message"] = "Producer added successfully";
+            return RedirectToAction("Producers", "Admin");
+        }
+
+        //****************************************
+
+        [HttpGet]
 		public IActionResult AddActor()
 		{
             int adminId = 0;
@@ -250,24 +287,82 @@ namespace MoviesE_commerce.Controllers
 
 		}
 		[HttpPost]
-		public IActionResult AddActor(IFormCollection req)
-		{
-			ActorName = req["ActorName"];
-			ActorBio = req["ActorBio"];
-			ActorProfilePictureURL = req["ProfilePictureURL"];
+        public IActionResult AddActor(IFormCollection req)
+        {
+            // Check if any field is empty
+            if (string.IsNullOrEmpty(req["ActorName"]) || string.IsNullOrEmpty(req["ActorBio"]) || string.IsNullOrEmpty(req["ProfilePictureURL"]))
+            {
+                ViewData["Message"] = "All fields are required.";
+                return View();
+            }
 
-			Actor newActor = new Actor
-			{
-				Name = ActorName,
-				Bio = ActorBio,
-				ProfilePictureURL = ActorProfilePictureURL
-			};
-			_db.Actors.Add(newActor);
-			_db.SaveChanges();
-			ViewData["Message"] = "Actor added successfully";
-			return View();
-		}
-		public IActionResult Moviess()
+            // Assign the values from the form collection
+            string ActorName = req["ActorName"];
+            string ActorBio = req["ActorBio"];
+            string ActorProfilePictureURL = req["ProfilePictureURL"];
+
+            // Validate the length of the ActorName, ActorBio, and ProfilePictureURL
+            if (ActorName.Length > 30)
+            {
+                ViewData["Message"] = "Actor Name must be 30 characters or less.";
+                return View();
+            }
+
+            if (ActorBio.Length > 150)
+            {
+                ViewData["Message"] = "Actor Bio must be 150 characters or less.";
+                return View();
+            }
+
+            if (ActorProfilePictureURL.Length > 150)
+            {
+                ViewData["Message"] = "Profile Picture URL must be 150 characters or less.";
+                return View();
+            }
+
+            // Check if ActorName contains only valid characters (letters and spaces)
+            if (!IsValidActorName(ActorName))
+            {
+                ViewData["Message"] = "Actor Name must contain only letters and spaces.";
+                return View();
+            }
+
+            // Check if the actor already exists
+            Actor? query = _db.Actors.SingleOrDefault(actor => actor.Name == ActorName);
+            if (query != null)
+            {
+                ViewData["Message"] = "This Actor already exists.";
+                return View();
+            }
+
+            // Create and add the new actor
+            Actor newActor = new Actor
+            {
+                Name = ActorName,
+                Bio = ActorBio,
+                ProfilePictureURL = ActorProfilePictureURL
+            };
+            _db.Actors.Add(newActor);
+            _db.SaveChanges();
+            ViewData["Message"] = "Actor added successfully";
+            return RedirectToAction("Actors");
+        }
+
+        // Method to check if the actor name contains only letters and spaces
+        private bool IsValidActorName(string actorName)
+        {
+            foreach (char c in actorName)
+            {
+                if (!char.IsLetter(c) && c != ' ')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        public IActionResult Moviess()
 		{
 			int adminId ; // Initialize with default admin ID or retrieve from wherever it's stored
 
@@ -468,34 +563,68 @@ namespace MoviesE_commerce.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Bio,ProfilePictureURL")] Producer producer)
-		{
-			if (id != producer.Id)
-			{
-				return NotFound(); // Or handle appropriately
-			}
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Bio,ProfilePictureURL")] Producer producer)
+        {
+            if (id != producer.Id)
+            {
+                return NotFound(); // Or handle appropriately
+            }
 
-			try
-			{
-				// Update the producer in the database
-				_db.Producers.Update(producer);
-				await _db.SaveChangesAsync(); // This line is missing in your provided code
-				return RedirectToAction(nameof(Producers)); // Redirect to the index page after successful edit
-			}
-			catch (Exception)
-			{
-				// Handle the error, maybe return to edit view with error message
-				ModelState.AddModelError("", "An error occurred while updating the producer.");
-				return View(producer);
-			}
+            // Validate fields
+            if (string.IsNullOrEmpty(producer.Name) || string.IsNullOrEmpty(producer.Bio) || string.IsNullOrEmpty(producer.ProfilePictureURL))
+            {
+                ViewData["Message"] = "All fields are required.";
+                return View(producer);
+            }
 
+            if (producer.Name.Length > 30)
+            {
+                ViewData["Message"] = "Producer Name must be 30 characters or less.";
+                return View(producer);
+            }
 
-			// If model state is not valid, return to the edit view with the model
+            if (producer.Bio.Length > 150)
+            {
+                ViewData["Message"] = "Producer Bio must be 150 characters or less.";
+                return View(producer);
+            }
 
-		}
-		#endregion
+            if (producer.ProfilePictureURL.Length > 150)
+            {
+                ViewData["Message"] = "Profile Picture URL must be 150 characters or less.";
+                return View(producer);
+            }
 
-		[HttpGet]
+            if (!IsValidActorName(producer.Name))
+            {
+                ViewData["Message"] = "Producer Name must contain only letters and spaces.";
+                return View(producer);
+            }
+
+            // Check if the producer already exists (excluding the current producer being edited)
+            var existingProducer = _db.Producers.SingleOrDefault(p => p.Name == producer.Name && p.Id != producer.Id);
+            if (existingProducer != null)
+            {
+                ViewData["Message"] = "This Producer already exists.";
+                return View(producer);
+            }
+
+            try
+            {
+                _db.Producers.Update(producer);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Producers)); // Redirect to the index page after successful edit
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "An error occurred while updating the producer.");
+                return View(producer);
+            }
+        }
+
+        #endregion
+
+        [HttpGet]
 		public async Task<IActionResult> EditMovie(int? id)
 		{
 			if (id == null || _db.Movies == null)
@@ -621,37 +750,78 @@ namespace MoviesE_commerce.Controllers
             return View(actor); // Return the edit view with the producer data
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditActor(int id, [Bind("Id,Name,Bio,ProfilePictureURL")] Actor actor)
-		{
-			if (id != actor.Id)
-			{
-				return NotFound(); // Or handle appropriately
-			}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditActor(int id, [Bind("Id,Name,Bio,ProfilePictureURL")] Actor actor)
+        {
+            if (id != actor.Id)
+            {
+                return NotFound(); // Or handle appropriately
+            }
 
-			try
-			{
-				// Update the actor in the database
-				_db.Actors.Update(actor);
-				await _db.SaveChangesAsync(); // This line is missing in your provided code
-				return RedirectToAction(nameof(Actors)); // Redirect to the index page after successful edit
-			}
-			catch (Exception)
-			{
-				// Handle the error, maybe return to edit view with error message
-				ModelState.AddModelError("", "An error occurred while updating the producer.");
-				return View(actor);
-			}
+            // Check if any field is empty
+            if (string.IsNullOrEmpty(actor.Name) || string.IsNullOrEmpty(actor.Bio) || string.IsNullOrEmpty(actor.ProfilePictureURL))
+            {
+                ViewData["Message"] = "All fields are required.";
+                return View(actor);
+            }
+
+            // Validate the length of the ActorName, ActorBio, and ProfilePictureURL
+            if (actor.Name.Length > 30)
+            {
+                ViewData["Message"] = "Actor Name must be 30 characters or less.";
+                return View(actor);
+            }
+
+            if (actor.Bio.Length > 150)
+            {
+                ViewData["Message"] = "Actor Bio must be 150 characters or less.";
+                return View(actor);
+            }
+
+            if (actor.ProfilePictureURL.Length > 150)
+            {
+                ViewData["Message"] = "Profile Picture URL must be 150 characters or less.";
+                return View(actor);
+            }
+
+            // Check if ActorName contains only valid characters (letters and spaces)
+            if (!IsValidActorName(actor.Name))
+            {
+                ViewData["Message"] = "Actor Name must contain only letters and spaces.";
+                return View(actor);
+            }
+
+            // Check if the actor name already exists (excluding the current actor being edited)
+            var existingActor = _db.Actors.FirstOrDefault(a => a.Name == actor.Name && a.Id != actor.Id);
+            if (existingActor != null)
+            {
+                ViewData["Message"] = "This Actor name already exists.";
+                return View(actor);
+            }
+
+            try
+            {
+                // Update the actor in the database
+                _db.Actors.Update(actor);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Actors)); // Redirect to the index page after successful edit
+            }
+            catch (Exception)
+            {
+                // Handle the error, maybe return to edit view with error message
+                ModelState.AddModelError("", "An error occurred while updating the actor.");
+                return View(actor);
+            }
+        }
+
+        // Helper method to validate the actor name
+ 
 
 
-			// If model state is not valid, return to the edit view with the model
 
-		}
-
-
-		// GET: /Movies/AddMovie
-		[HttpGet]
+        // GET: /Movies/AddMovie
+        [HttpGet]
 		public IActionResult AddMovieForm()
 		{
 			var viewModel = new MovieViewModel

@@ -93,6 +93,11 @@
     .btn-custom {
         background-color: #00BCD4; /* Custom color */
         color: white; /* Text color */
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-danger" role="alert"> @ViewData["Message"] </div>
+    }
     </style>
 <div class="container-fluid px-1 py-5 mx-auto">
     <div class="row d-flex justify-content-center">
